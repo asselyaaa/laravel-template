@@ -1,0 +1,34 @@
+image: lorisleiva/laravel-docker:latest
+
+stages:
+  - build
+  - test
+
+composer:
+  stage: build
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - cp .env.example .env
+    - php artisan key:generate
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - vendor/
+      - .env
+  cache:
+    # The variable CI_COMMIT_REF_SLUG
+    # refers to the slug of the branch.
+    # For example: `master` for the master branch.
+    # We use the `composer` suffix to avoid conflicts with
+    # the `npm` cache that we'll define next.
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    # Define what to cache.
+    paths:
+      - vendor/
+
+phpunit:
+  stage: test
+  dependencies:
+    - composer
+  script:
+    - vendor/bin/phpunit --configuration phpunit.xml
