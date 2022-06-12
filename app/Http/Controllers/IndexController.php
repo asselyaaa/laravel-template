@@ -7,7 +7,7 @@ class IndexController extends Controller
     public function index()
     {
         return response()->json([
-            'message' => 'Hello World!'
+            'message' => 'Hello World!',
         ]);
     }
 }
