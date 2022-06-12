@@ -4,6 +4,19 @@ stages:
   - build
   - test
 
+#build_image:
+#  image: docker:20.10.10
+#  stage: build
+#  services:
+#    - docker:20.10.10-dind
+#  before_script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#  script:
+#    - docker build --pull -t grizzly31/php:8.0-fpm-alpine docker/
+#    - docker push grizzly31/php:8.0-fpm-alpine
+#  only:
+#    - master
+
 composer:
   stage: build
   script:
